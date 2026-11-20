@@ -1,0 +1,4 @@
+/media/
+.env
+.env.*
+!.env.example

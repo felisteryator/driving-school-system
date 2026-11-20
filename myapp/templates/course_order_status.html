@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Order Created | Drivin{% endblock %}
+
+{% block content %}
+<div class="container-xxl py-6">
+    <div class="container">
+        <div class="bg-light rounded p-5 mx-auto" style="max-width: 760px;">
+            <h1 class="display-6 mb-3">Your course order is ready</h1>
+            {% if order.status == "paid" %}
+                <p class="mb-4">Your payment is confirmed.</p>
+            {% elif payment_attempt.status == "pending" %}
+                <p class="mb-4">An M-PESA prompt has been sent. Check your phone and follow the instructions. The order will remain pending until the payment callback is processed in the next development step.</p>
+            {% elif payment_attempt.status == "unknown" %}
+                <div class="alert alert-warning" role="alert">{{ payment_attempt.result_description }} Do not submit another payment request yet. Payment status checking will be added in the next development step.</div>
+            {% else %}
+                <p class="mb-4">Your order has been saved. No payment request has been sent yet.</p>
+            {% endif %}
+            <dl class="row mb-4">
+                <dt class="col-sm-4">Order reference</dt>
+                <dd class="col-sm-8"><code>{{ order.reference }}</code></dd>
+                <dt class="col-sm-4">Course</dt>
+                <dd class="col-sm-8">{{ order.course.name }}</dd>
+                <dt class="col-sm-4">Amount</dt>
+                <dd class="col-sm-8">KSh {{ order.amount_kes }}</dd>
+                <dt class="col-sm-4">Status</dt>
+                <dd class="col-sm-8">{{ order.get_status_display }}</dd>
+            </dl>
+            {% if payment_attempt.result_description and payment_attempt.status == "failed" %}
+                <div class="alert alert-warning" role="alert">{{ payment_attempt.result_description }}</div>
+            {% endif %}
+            {% if order.status == "pending" and payment_attempt.status != "pending" and payment_attempt.status != "unknown" %}
+                <form method="post" action="{% url 'myapp:initiate_course_payment' order.reference %}" class="mb-4">
+                    {% csrf_token %}
+                    <button class="btn btn-primary py-3 px-5" type="submit">
+                        {% if payment_attempt.status == "failed" or payment_attempt.status == "cancelled" or payment_attempt.status == "timed_out" %}
+                            Try M-PESA Again
+                        {% else %}
+                            Pay with M-PESA
+                        {% endif %}
+                    </button>
+                </form>
+            {% endif %}
+            <a class="btn btn-primary py-3 px-5" href="{% url 'myapp:courses' %}">Back to Courses</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

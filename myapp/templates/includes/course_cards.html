@@ -1,0 +1,40 @@
+{% if courses %}
+<div class="row g-4 justify-content-center">
+    {% for course in courses %}
+    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <article class="courses-item d-flex flex-column bg-light overflow-hidden h-100">
+            <div class="text-center p-4 pt-0">
+                <div class="d-inline-block bg-primary text-white fs-5 py-1 px-4 mb-4">{% if course.price_kes %}KSh {{ course.price_kes }}{% else %}Contact for price{% endif %}</div>
+                <h3 class="h5 mb-3">{{ course.name }}</h3>
+                <p>{{ course.description }}</p>
+                <p class="small mb-0"><i class="fa fa-calendar-alt text-primary me-2" aria-hidden="true"></i>{% if course.duration_weeks %}{{ course.duration_weeks }} week{{ course.duration_weeks|pluralize }}{% else %}Duration to be confirmed{% endif %}</p>
+            </div>
+            <div class="position-relative mt-auto">
+                {% if course.image %}
+                <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.name }}">
+                {% else %}
+                <div class="bg-dark text-white d-flex align-items-center justify-content-center" style="height: 240px;" aria-label="{{ course.name }} course image placeholder">
+                    <i class="fa fa-car-side fa-4x" aria-hidden="true"></i>
+                </div>
+                {% endif %}
+                <div class="courses-overlay">
+                    {% if course.price_kes %}
+                    <a class="btn btn-outline-primary border-2" href="{% url 'myapp:course_checkout' course.slug %}">Enroll in This Course</a>
+                    {% else %}
+                    <a class="btn btn-outline-primary border-2" href="{% url 'myapp:contact' %}">Ask About This Course</a>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="alert alert-light text-center mb-0" role="status">
+            Courses will be listed here soon. Please <a href="{% url 'myapp:contact' %}">contact us</a> for current course information.
+        </div>
+    </div>
+</div>
+{% endif %}

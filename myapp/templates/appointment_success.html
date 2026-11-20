@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Request Received | Drivin{% endblock %}
+
+{% block content %}
+<div class="container-xxl py-6">
+    <div class="container text-center">
+        <div class="bg-light rounded p-5 mx-auto" style="max-width: 720px;">
+            <i class="fa fa-check-circle text-primary display-1 mb-4" aria-hidden="true"></i>
+            <h1 class="display-6 mb-3">Your request has been received</h1>
+            <p class="mb-4">Your appointment is pending confirmation. Our team will contact you to confirm the date and time.</p>
+            <a class="btn btn-primary py-3 px-5" href="{% url 'myapp:home' %}">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

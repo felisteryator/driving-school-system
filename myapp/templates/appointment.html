@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Appointment | Drivin{% endblock %}
+
+{% block content %}
+<!-- Page Header Start -->
+    <div class="container-fluid page-header py-6 my-6 mt-0 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center">
+            <h1 class="display-4 text-white animated slideInDown mb-4">Appointment</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Appointment</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Appointment Start -->
+    <div class="container-xxl py-6">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="position-relative overflow-hidden ps-5 pt-5 h-100" style="min-height: 400px;">
+                        <img class="position-absolute w-100 h-100" src="https://www.goafricaonline.com/uploads/media/default/0003/48/6440119463637-auto%20ecole%20Togo.jpg" alt="A learner driver receiving instruction in Togo" style="object-fit: cover;">
+                        <img class="position-absolute top-0 start-0 bg-white pe-3 pb-3" src="https://cdn.yen.com.gh/images/1120/3o3bpd4219n8fuhoc.jpeg?v=1" alt="Driving instructor guiding a learner in Ghana" style="width: 200px; height: 200px;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <h6 class="text-primary text-uppercase mb-2">Appointment</h6>
+                    <h1 class="display-6 mb-4">Make An Appointment To Pass Test & Get A License On The First Try</h1>
+                    <form method="post" action="{% url 'myapp:appointment' %}">
+                        {% csrf_token %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <p class="fw-bold mb-2">Please correct the following before submitting:</p>
+                                <ul class="mb-0">
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    {{ form.name }}
+                                    <label for="{{ form.name.id_for_label }}">Your Name</label>
+                                    {{ form.name.errors }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    {{ form.email }}
+                                    <label for="{{ form.email.id_for_label }}">Your Email</label>
+                                    {{ form.email.errors }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    {{ form.course }}
+                                    <label for="{{ form.course.id_for_label }}">Course Type</label>
+                                    {{ form.course.errors }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    {{ form.vehicle }}
+                                    <label for="{{ form.vehicle.id_for_label }}">Vehicle Type</label>
+                                    {{ form.vehicle.errors }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.preferred_date.id_for_label }}">Preferred Date</label>
+                                {{ form.preferred_date }}
+                                {{ form.preferred_date.errors }}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.preferred_time.id_for_label }}">Preferred Time</label>
+                                {{ form.preferred_time }}
+                                {{ form.preferred_time.errors }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.message.id_for_label }}">Additional Message (optional)</label>
+                                {{ form.message }}
+                                {{ form.message.errors }}
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Appointment End -->
+{% endblock %}

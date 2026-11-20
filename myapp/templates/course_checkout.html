@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Course Checkout | Drivin{% endblock %}
+
+{% block content %}
+<div class="container-fluid page-header py-6 my-6 mt-0">
+    <div class="container text-center">
+        <h1 class="display-4 text-white mb-4">Course Checkout</h1>
+        <p class="text-white mb-0">Enter your details to prepare your course order.</p>
+    </div>
+</div>
+
+<div class="container-xxl py-6">
+    <div class="container">
+        <div class="row g-5 justify-content-center">
+            <div class="col-lg-5">
+                <div class="bg-light rounded p-5 h-100">
+                    <h2 class="h4 mb-4">Your course</h2>
+                    <h3 class="h5">{{ course.name }}</h3>
+                    <p>{{ course.description }}</p>
+                    <p class="mb-0"><strong>Price:</strong> KSh {{ course.price_kes }}</p>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <h2 class="h4 mb-4">Learner details</h2>
+                <form method="post" action="{% url 'myapp:course_checkout' course.slug %}">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.customer_name.id_for_label }}">{{ form.customer_name.label }}</label>
+                        {{ form.customer_name }}
+                        {{ form.customer_name.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.customer_email.id_for_label }}">{{ form.customer_email.label }}</label>
+                        {{ form.customer_email }}
+                        {{ form.customer_email.errors }}
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+                        {{ form.phone_number }}
+                        {{ form.phone_number.errors }}
+                        <div class="form-text">Use a Kenyan mobile number. You can enter it with or without the +254 country code.</div>
+                    </div>
+                    <div class="alert alert-info" role="status">
+                        This development step creates your order only. It will not send an M-PESA payment request yet.
+                    </div>
+                    <button class="btn btn-primary py-3 px-5" type="submit">Create Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

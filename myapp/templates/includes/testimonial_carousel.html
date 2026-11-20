@@ -1,0 +1,51 @@
+{% load static %}
+{% if testimonials %}
+<!-- Testimonial Start -->
+<div class="container-xxl py-6">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <h6 class="text-primary text-uppercase mb-2">Testimonial</h6>
+            <h2 class="display-6 mb-4">What Our Clients Say!</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="owl-carousel testimonial-carousel">
+                    {% for testimonial in testimonials %}
+                    <article class="testimonial-item text-center">
+                        <div class="position-relative mb-5">
+                            {% if testimonial.photo %}
+                            <img class="img-fluid rounded-circle mx-auto" src="{{ testimonial.photo.url }}" alt="Photo of {{ testimonial.customer_name }}">
+                            {% elif testimonial.photo_url %}
+                            <img class="img-fluid rounded-circle mx-auto" src="{{ testimonial.photo_url }}" alt="Photo of {{ testimonial.customer_name }}">
+                            {% elif forloop.counter == 1 %}
+                            <img class="img-fluid rounded-circle mx-auto" src="{% static 'img/testimonial1.jpg' %}" alt="Photo of {{ testimonial.customer_name }}">
+                            {% elif forloop.counter == 2 %}
+                            <img class="img-fluid rounded-circle mx-auto" src="{% static 'img/testimonial2.jpg' %}" alt="Photo of {{ testimonial.customer_name }}">
+                            {% elif forloop.counter == 3 %}
+                            <img class="img-fluid rounded-circle mx-auto" src="{% static 'img/testimonial3.jpg' %}" alt="Photo of {{ testimonial.customer_name }}">
+                            {% else %}
+                            <div class="rounded-circle mx-auto bg-primary text-white d-flex align-items-center justify-content-center" style="width: 120px; height: 120px; font-size: 3rem;" aria-label="Initial for {{ testimonial.customer_name }}">{{ testimonial.customer_name|first|upper }}</div>
+                            {% endif %}
+                            <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle" style="width: 60px; height: 60px;" aria-hidden="true">
+                                <i class="fa fa-quote-left fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                        <blockquote class="fs-4">{{ testimonial.review|linebreaksbr }}</blockquote>
+                        <hr class="w-25 mx-auto">
+                        <h3 class="h5">{{ testimonial.customer_name }}</h3>
+                        <span>{% if testimonial.course_taken %}{{ testimonial.course_taken }}{% else %}Driving student{% endif %}</span>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Testimonial End -->
+{% else %}
+<div class="container-xxl py-6">
+    <div class="container text-center">
+        <p class="text-muted mb-0">Customer reviews will appear here once approved.</p>
+    </div>
+</div>
+{% endif %}
