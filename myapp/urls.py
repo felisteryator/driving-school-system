@@ -20,3 +20,4 @@ urlpatterns = [
     path("team/", views.team, name="team"),
     path("testimonial/", views.testimonial, name="testimonial"),
 ]
+
