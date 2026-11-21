@@ -32,8 +32,13 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "driving-school-system-2qkd.vercel.app",
+    ".felister-yator.vercel.app",
 ]
-for host_variable in ("VERCEL_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+for host_variable in (
+    "VERCEL_URL",
+    "VERCEL_BRANCH_URL",
+    "VERCEL_PROJECT_PRODUCTION_URL",
+):
     vercel_host = os.environ.get(host_variable)
     if vercel_host:
         ALLOWED_HOSTS.append(vercel_host.removeprefix("https://").removeprefix("http://"))
