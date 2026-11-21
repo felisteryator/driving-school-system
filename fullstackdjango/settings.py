@@ -23,31 +23,14 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-local-development-only")
+SECRET_KEY = 'django-insecure-&n98u63%fx%p_*aj3&!8nayktxrl%+@7d#uir!o!$g#%*w!59k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "RENDER" not in os.environ
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "driving-school-system-2qkd.vercel.app",
-    ".felister-yator.vercel.app",
+    '.vercel.app',
 ]
-render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-if render_host:
-    ALLOWED_HOSTS.append(render_host)
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
-# Keep Vercel deployment URLs working if this project is also deployed there.
-for host_variable in (
-    "VERCEL_URL",
-    "VERCEL_BRANCH_URL",
-    "VERCEL_PROJECT_PRODUCTION_URL",
-):
-    vercel_host = os.environ.get(host_variable)
-    if vercel_host:
-        ALLOWED_HOSTS.append(vercel_host.removeprefix("https://").removeprefix("http://"))
 
 
 # Application definition
@@ -65,7 +48,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,7 +82,7 @@ WSGI_APPLICATION = 'fullstackdjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.environ.get('DATABASE_PATH', BASE_DIR / 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -139,17 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
 MEDIA_URL = '/media/'
-MEDIA_ROOT = Path(os.environ.get("MEDIA_ROOT", BASE_DIR / "media"))
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Email: print messages in development; configure SMTP through environment variables
 # to deliver email outside the local development environment.
